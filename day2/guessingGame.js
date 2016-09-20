@@ -14,6 +14,9 @@ function setUpGame(){
     // Show the appropriate divs
     $("#intro").show();
     $("#game").hide();
+    $("#startOver").hide();
+    $("#btnGuess").show();
+    $("#reset").show();
 }
 
 // Handle the guess
@@ -22,6 +25,9 @@ function handleGuess(){
     if (+guess == answer) {
         // Tell them the answer is right
         $("#message").text("Correct!");
+        $("#btnGuess").hide();
+        $("#reset").hide();
+        $("#startOver").show();
 
     } else {
         // Tell them the answer is wrong
@@ -41,7 +47,10 @@ function playGame(){
 $(function(){
 // Wire up event handlers
     $("#startGame").on("click", playGame);
+    $("#startOver").on("click", setUpGame);
     $("#btnGuess").on("click", handleGuess);
+    $("#reset").on("click", setUpGame);
+
 // Start the gema
     setUpGame();
 });
