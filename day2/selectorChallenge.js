@@ -1,15 +1,7 @@
-function vanPara(){
-    alert("Bye!");
-}
+$(function(){
+    $("#para1").css("color", "red");
 
-$(function (){
-    $("#para1").load(vanPara);
-    $("li:contains('1')").load(function(){
-        $(this).hide();
+    $("h3").css("color", "orange");
 
-    });
+    $("#itemList").css("color", "yellow");
 });
-
- function hideH3() {
-            $("h3").fadeOut("slow", "linear");
-        }
