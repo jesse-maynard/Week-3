@@ -1,0 +1,62 @@
+<html>
+
+<head>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+        crossorigin="anonymous">
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+
+        <link rel= "stylesheet" href="cosmo.css">
+
+</head>
+
+<body>
+    <nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">WebSiteName</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Home</a></li>
+      <li><a href="#">Page 1</a></li>
+      <li><a href="#">Page 2</a></li> 
+      <li><a href="#">Page 3</a></li> 
+    </ul>
+  </div>
+</nav>
+
+<h1>Some Header</h1>
+<p>Bacon ipsum dolor amet ham hock rump bacon drumstick ribeye alcatra. Turkey shankle drumstick, spare ribs jowl pork belly ham rump tail flank ground round cow beef ribs. Hamburger ham frankfurter shoulder, chuck porchetta jowl chicken sirloin ham hock. Jerky andouille prosciutto ball tip bresaola alcatra landjaeger, beef ribs t-bone pork belly pastrami short loin doner ham hock boudin. Cupim bresaola sirloin, pig t-bone frankfurter ground round andouille tail chicken.
+
+Leberkas kevin andouille, picanha ham hock swine pig ground round doner turkey shankle beef rump sausage. Ham swine short loin turkey strip steak kielbasa beef ribs meatball corned beef tail meatloaf. Tail corned beef jowl tongue shank rump, sirloin ham. Capicola spare ribs flank meatball leberkas. Cow corned beef doner, jerky filet mignon alcatra sirloin rump andouille pork belly prosciutto jowl short loin.
+
+Ball tip turducken pastrami, flank tail bacon brisket meatball hamburger biltong ham hock. T-bone capicola hamburger cupim, pancetta pig flank shoulder beef ribs jerky tail picanha pastrami. Brisket kielbasa pork capicola boudin pork belly. Turducken t-bone venison, corned beef pork loin tail meatball leberkas.
+
+Chicken venison tongue kevin tail fatback. Kevin frankfurter prosciutto sirloin swine beef short loin fatback, salami tri-tip rump ham andouille. Doner shankle bresaola shank ham, picanha short loin. Alcatra meatloaf hamburger beef tail.
+
+Kevin kielbasa turkey short loin pastrami. Leberkas picanha venison, pork belly tongue flank drumstick frankfurter beef bresaola pig sirloin spare ribs. Picanha chicken ball tip, beef ribs pork belly tenderloin swine pancetta hamburger short ribs filet mignon kevin tri-tip frankfurter. Chuck spare ribs tenderloin swine. Short ribs ham hock pork ribeye pork chop.
+
+</p>
+<script>
+
+    $(function(){
+
+        $.ajax({
+            url:"https://api.darksky.net/forecast/9706b1862a5387b6c7c27a25a25fab6a/37.8267,-122.4233",
+            dataType: "jsonp",
+            success: function(result){
+                console.log(result.currently.summary)
+
+            }
+        })
+    });
+</script>
+</body>
+
+</html>
