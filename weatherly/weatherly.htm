@@ -21,7 +21,8 @@
 <div class= "container">
     <div class="row">
         <div class= "col-md-4" style= " height: 500px; background-image: url(http://kurld.com/images/wallpapers/sunny-pic/sunny-pic-7.jpg); background-size: 100% 100%;">
-            <button class= "btn pull-right" style= "background-color: transparent;"><span class= "glyphicon glyphicon-plus" style= "color: white;"></span></button>
+            <input id= "zipBox" class = "pull-right" style = "background-color: transparent; border-color: transparent; color: white;" type= "text" placeholder= "Enter Zipcode">
+            <button id = "lookUpZipCode"class= "btn pull-right" style= "background-color: transparent;"><span class= "glyphicon glyphicon-plus" style= "color: white;"></span></button>
             <div style= "text-align: center; font-family: 'nova round'; font-size: 40pt; color: white; ">Sunny</div>
             <div style= "font-family: 'nova round'; color: white;">
                 <h1 style= "text-align: center;">Paintsville</h1><br/>
@@ -87,17 +88,9 @@
         <div class= "col-md-4" style= " height: 500px; background-image: url(http://www.pxleyes.com/images/contests/fog/fullsize/foggy-morning-4d51b2085c29b_hires.jpg); background-size: 100% 100%;">
             <button class= "btn pull-right" style= "background-color: transparent;"><span class= "glyphicon glyphicon-plus" style= "color: white;"></span></button>
             <div style= "text-align: center; font-family: 'nova round'; font-size: 40pt; color: white; ">Foggy</div>
-            <div style= "font-family: 'nova round'; color: white;">
-                <h1 style= "text-align: center;">Paintsville</h1><br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <h2 style= "text-align: center; font-size: 30pt;">70</h2>
+            <div id= "locationName" style= "font-family: 'nova round'; color: white;">
+                
+
             </div>
     </div>
     <div class= "col-md-4" style= " height: 500px; background-image: url(https://c1.staticflickr.com/7/6023/5975465375_9c089b6085_b.jpg); background-size: 100% 100%;">
@@ -116,7 +109,68 @@
                 <h2 style= "text-align: center; font-size: 30pt;">70</h2>
             </div>
             </div>
+<script>
 
+
+function darkSky_complete(){
+  var latitude = result.results["0"].geometry.location.lat;
+            var longitude = result.results["0"].geometry.location.lng;
+            console.log("The lat and long is " + latitude + ", " + longitude);
+}
+
+function geocode_Complete(result){
+            var latitude = result.results["0"].geometry.location.lat;
+            var longitude = result.results["0"].geometry.location.lng;
+            console.log("The lat and long is " + latitude + ", " + longitude);
+        }
+ 
+function lookupLatLong(city, state, zipBox) {
+            
+            var address = "";
+            if (zipBox.length != 0) {
+                address = zipBox.trim();
+            }
+            else if (city.length != 0 && state != 0) {
+                address = city.trim() + ", " + state;
+            }
+            else {
+                return;
+            }
+//Call Google API///////////////////////////////////////
+           var googleUrl = "https://maps.googleapis.com/maps/api/geocode/json?address=" 
+           + address + "&key=AIzaSyDJ4y5cqy80e_r8gwYVbivdn8n42LUexOA"; 
+           
+        var request = {
+            url: googleUrl,
+            success: geocode_Complete
+        };
+
+      $.ajax(request);
+//Call DarkSky/////////////////////////////////////////
+      var request = {
+            url:"https://api.darksky.net/forecast/9706b1862a5387b6c7c27a25a25fab6a/" + latitude + "," + longitude,
+            dataType: "jsonp",
+            success: darkSky_Complete
+        };
+
+        $.ajax(request);
+}
+ 
+// Event Handler///////////////////////////////////////
+
+function lookUpWeatherForZipCode_Click() {
+    var zcode = $("#zipBox").val();
+    lookupLatLong("", "", zcode);
+}
+
+//Document Ready///////////////////////////////////////
+
+$(function(){
+    $("#lookUpZipCode").on("click", lookUpWeatherForZipCode_Click)
+});
+
+//////////////////////////////////////////////////////
+    </script>
 </div>
 </body>
 
