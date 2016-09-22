@@ -111,17 +111,23 @@
             </div>
 <script>
 
-
-function darkSky_complete(){
-  var latitude = result.results["0"].geometry.location.lat;
-            var longitude = result.results["0"].geometry.location.lng;
-            console.log("The lat and long is " + latitude + ", " + longitude);
+function darkSky_Complete(result){
+console.log(result.currently.summary);
 }
 
+ 
 function geocode_Complete(result){
             var latitude = result.results["0"].geometry.location.lat;
             var longitude = result.results["0"].geometry.location.lng;
             console.log("The lat and long is " + latitude + ", " + longitude);
+
+            var request = {
+            url:"https://api.darksky.net/forecast/9706b1862a5387b6c7c27a25a25fab6a/" + latitude + "," + longitude,
+            dataType: "jsonp",
+            success: darkSky_Complete
+        };
+
+        $.ajax(request);
         }
  
 function lookupLatLong(city, state, zipBox) {
@@ -147,13 +153,7 @@ function lookupLatLong(city, state, zipBox) {
 
       $.ajax(request);
 //Call DarkSky/////////////////////////////////////////
-      var request = {
-            url:"https://api.darksky.net/forecast/9706b1862a5387b6c7c27a25a25fab6a/" + latitude + "," + longitude,
-            dataType: "jsonp",
-            success: darkSky_Complete
-        };
-
-        $.ajax(request);
+      
 }
  
 // Event Handler///////////////////////////////////////
