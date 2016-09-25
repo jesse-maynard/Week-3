@@ -19,7 +19,7 @@ function weatherTemplate(result){
 
 }
 function generateCard(result){
-    var html = weatherTemplate;
+    var html = weatherTemplate(tempDiv);
     $("#cards").append(html);
 }
 
