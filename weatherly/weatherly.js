@@ -4,21 +4,21 @@ var state;
 var latitude;
 var longitude;
 
-function weatherTemplate(weatherInfo){
+function weatherTemplate(result){
     var tempDiv = $("#tempDiv").html();
 
-    tempDiv= tempDiv.replace("@@location@@",weatherInfo.results[0].address_components[1].long_name);
-    tempDiv= tempDiv.replace("@@weather@@",weatherInfo.currently.summary);
-    tempDiv= tempDiv.replace("@@current@temp@@",weatherInfo.currently.summary.temperature);
-    tempDiv= tempDiv.replace("@@high@temp@@",weatherInfo.hourly[12].data[5]);
-    tempDiv= tempDiv.replace("@@average@temp@@",weatherInfo.hourly[30].data[5]);
-    tempDiv= tempDiv.replace("@@low@temp@@",weatherInfo.hourly[44].data[5]);
+    tempDiv= tempDiv.replace("@@location@@",result.results[0].address_components[1].long_name);
+    tempDiv= tempDiv.replace("@@weather@@",result.currently.summary);
+    tempDiv= tempDiv.replace("@@current@temp@@",result.currently.summary.temperature);
+    tempDiv= tempDiv.replace("@@high@temp@@",result.hourly[12].data[5]);
+    tempDiv= tempDiv.replace("@@average@temp@@",result.hourly[30].data[5]);
+    tempDiv= tempDiv.replace("@@low@temp@@",result.hourly[44].data[5]);
 
 
     return tempDiv;
 
 }
-function generateCard(tempDiv){
+function generateCard(result){
     var html = weatherTemplate(tempDiv);
     $("#cards").append(html);
 }
@@ -32,7 +32,7 @@ console.log(state);
 function darkSky_Success(result) {
     geocode_Complete(result);
     darkSky_Complete(result);
-    weatherTemplate(weatherInfo);
+    weatherTemplate(result);
 
 }
  
