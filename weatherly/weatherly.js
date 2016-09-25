@@ -19,7 +19,7 @@ function weatherTemplate(weatherInfo){
 
 }
 function generateCard(tempDiv){
-    var html = weatherTemplate;
+    var html = weatherTemplate(tempDiv);
     $("#cards").append(html);
 }
 
@@ -29,6 +29,12 @@ console.log(city);
 console.log(state);
 }
 
+function darkSky_Success(result) {
+    geocode_Complete(result);
+    darkSky_Complete(result);
+    weatherTemplate(weatherInfo);
+
+}
  
 function geocode_Complete(result){
             latitude = result.results["0"].geometry.location.lat;
@@ -42,7 +48,7 @@ function geocode_Complete(result){
             var request = {
             url:"https://api.darksky.net/forecast/9706b1862a5387b6c7c27a25a25fab6a/" + latitude + "," + longitude,
             dataType: "jsonp",
-            success: darkSky_Complete, weatherTemplate 
+            success: darkSky_Success 
         };
 
         $.ajax(request);
@@ -68,7 +74,7 @@ function lookupLatLong(city, state, zipBox) {
           
            var request = {
             url: googleUrl,
-            success: geocode_Complete, weatherTemplate
+            success: geocode_Complete
             };
 
       $.ajax(request);
