@@ -1,27 +1,4 @@
 
-var city;
-var state;
-var latitude;
-var longitude;
-
-function weatherTemplate(result){
-    var tempDiv = $("#tempDiv").html();
-
-    tempDiv= tempDiv.replace("@@location@@",result.results[0].address_components[1].long_name);
-    tempDiv= tempDiv.replace("@@weather@@",result.currently.summary);
-    tempDiv= tempDiv.replace("@@current@temp@@",result.currently.summary.temperature);
-    tempDiv= tempDiv.replace("@@high@temp@@",result.hourly[12].data[5]);
-    tempDiv= tempDiv.replace("@@average@temp@@",result.hourly[30].data[5]);
-    tempDiv= tempDiv.replace("@@low@temp@@",result.hourly[44].data[5]);
-
-
-    return tempDiv;
-
-}
-function generateCard(result){
-    var html = weatherTemplate(tempDiv);
-    $("#cards").append(html);
-}
 
 function darkSky_Complete(result){
 console.log(result.currently.summary);
@@ -29,16 +6,10 @@ console.log(city);
 console.log(state);
 }
 
-function darkSky_Success(result) {
-    geocode_Complete(result);
-    darkSky_Complete(result);
-    weatherTemplate(result);
-
-}
  
 function geocode_Complete(result){
-            latitude = result.results["0"].geometry.location.lat;
-            longitude = result.results["0"].geometry.location.lng;
+            latitude = result.results[0].geometry.location.lat;
+            longitude = result.results[0].geometry.location.lng;
             city = result.results[0].address_components[1].long_name;
             state= result.results[0].address_components[3].long_name;
             console.log("The lat and long is " + latitude + ", " + longitude);
@@ -48,7 +19,7 @@ function geocode_Complete(result){
             var request = {
             url:"https://api.darksky.net/forecast/9706b1862a5387b6c7c27a25a25fab6a/" + latitude + "," + longitude,
             dataType: "jsonp",
-            success: darkSky_Success 
+            success: darkSky_Complete
         };
 
         $.ajax(request);
@@ -98,3 +69,28 @@ $(function(){
 //////////////////////////////////////////////////////
 
 // Generate New Divs/////////////////////////////////
+
+
+var city;
+var state;
+var latitude;
+var longitude;
+
+function weatherTemplate(weatherInfo){
+    var tempDiv = $("#tempDiv").html();
+
+    tempDiv= tempDiv.replace("@@location@@",weatherInfo.results[0].address_components[1].long_name);
+    tempDiv= tempDiv.replace("@@weather@@",weatherInfo.currently.summary);
+    tempDiv= tempDiv.replace("@@current@temp@@",weatherInfo.currently.summary.temperature);
+    tempDiv= tempDiv.replace("@@high@temp@@",weatherInfo.hourly[12].data[5]);
+    tempDiv= tempDiv.replace("@@average@temp@@",weatherInfo.hourly[30].data[5]);
+    tempDiv= tempDiv.replace("@@low@temp@@",weatherInfo.hourly[44].data[5]);
+
+
+    return tempDiv;
+
+}
+function generateCard(result){
+    var html = weatherTemplate();
+    $("#cards").append(html);
+}
