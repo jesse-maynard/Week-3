@@ -12,6 +12,9 @@ function geocode_Complete(result){
             longitude = result.results[0].geometry.location.lng;
             city = result.results[0].address_components[1].long_name;
             state= result.results[0].address_components[3].long_name;
+            morning = result.hourly.data[12].apparentTemperature;
+            noon = result.hourly.data[30].apparentTemperature;
+            night = result.hourly.data[44].apparentTemperature;
             console.log("The lat and long is " + latitude + ", " + longitude);
 
 // Call Darksky/////////////////////////////////////////
@@ -19,7 +22,7 @@ function geocode_Complete(result){
             var request = {
             url:"https://api.darksky.net/forecast/9706b1862a5387b6c7c27a25a25fab6a/" + latitude + "," + longitude,
             dataType: "jsonp",
-            success: darkSky_Complete
+            success: generateCard
         };
 
         $.ajax(request);
@@ -62,7 +65,7 @@ function lookUpWeatherForZipCode_Click() {
 //Document Ready///////////////////////////////////////
 
 $(function(){
-    $("#lookUpZipCode").on("click", lookUpWeatherForZipCode_Click, generateCard)
+    $("#lookUpZipCode").on("click", lookUpWeatherForZipCode_Click)
     $("#zipBox").focus();
 });
 
@@ -75,22 +78,25 @@ var city;
 var state;
 var latitude;
 var longitude;
+var morning;
+var noon;
+var night;
 
-function weatherTemplate(weatherInfo){
+function weatherTemplate(result){
     var tempDiv = $("#tempDiv").html();
 
-    tempDiv= tempDiv.replace("@@location@@",weatherInfo.results[0].address_components[1].long_name);
-    tempDiv= tempDiv.replace("@@weather@@",weatherInfo.currently.summary);
-    tempDiv= tempDiv.replace("@@current@temp@@",weatherInfo.currently.summary.temperature);
-    tempDiv= tempDiv.replace("@@high@temp@@",weatherInfo.hourly[12].data[5]);
-    tempDiv= tempDiv.replace("@@average@temp@@",weatherInfo.hourly[30].data[5]);
-    tempDiv= tempDiv.replace("@@low@temp@@",weatherInfo.hourly[44].data[5]);
+    tempDiv= tempDiv.replace("@@location@@",city);
+    tempDiv= tempDiv.replace("@@weather@@",result.currently.summary);
+    tempDiv= tempDiv.replace("@@current@temp@@",result.currently.summary.temperature);
+    tempDiv= tempDiv.replace("@@high@temp@@",morning);
+    tempDiv= tempDiv.replace("@@average@temp@@",noon);
+    tempDiv= tempDiv.replace("@@low@temp@@",night);
 
 
     return tempDiv;
 
 }
 function generateCard(result){
-    var html = weatherTemplate();
+    var html = weatherTemplate(result);
     $("#cards").append(html);
 }
