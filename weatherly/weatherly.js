@@ -98,7 +98,7 @@ $(function () {
 
 
 
-function weatherTemplate(data) {
+function weatherTemplate() {
     var weatherData = $("#tempDiv").html();
 
     switch(icon){
