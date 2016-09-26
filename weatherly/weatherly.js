@@ -4,7 +4,7 @@ var state;
 var latitude;
 var longitude;
 var lrgTemp;
-
+var icon;
 
 
 function darkSky_Complete(result) {
@@ -16,7 +16,7 @@ function darkSky_Complete(result) {
     tempMin = Math.round((result.daily.data[0].temperatureMin)) + "&deg";
     rainChance = (result.daily.data[0].precipProbability);
     maxTemp = Math.round((result.daily.data[0].temperatureMax)) + "&deg";
-
+    icon = result.currently.icon;
 
     weather_Complete(result);
 
@@ -26,9 +26,9 @@ function geocode_Complete(result) {
 
     latitude = result.results[0].geometry.location.lat;
     longitude = result.results[0].geometry.location.lng;
-    city = result.results[0].address_components[1].long_name;
+    city = result.results[0].formatted_address;
 
-    state = result.results[0].address_components[3].long_name;
+  //  state = result.results[0].address_components[3].long_name;
     console.log("The lat and long is " + latitude + ", " + longitude);
 
     var request = {
@@ -101,7 +101,7 @@ $(function () {
 function weatherTemplate(data) {
     var weatherData = $("#tempDiv").html();
 
-    switch(weather.icon){
+    switch(icon){
         case "clear-day":
         case "clear-night":
         case "rain":
@@ -112,10 +112,10 @@ function weatherTemplate(data) {
         case "cloudy":
         case "partly-cloudy-day":
         case "partly-cloudy-night":
-            weatherData = weatherData.replace("@@imgurl@@",  )
+            weatherData = weatherData.replace("@@imgurl@@", icon + ".png" );
             break;
         default:
-            weatherData = weatherData.replace("@@imgurl@@", "http://weknowyourdreams.com/images/grey/grey-04.jpg")
+            weatherData = weatherData.replace("@@imgurl@@", "http://weknowyourdreams.com/images/grey/grey-04.jpg");
             break;
         
     }
