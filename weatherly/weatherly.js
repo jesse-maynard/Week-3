@@ -6,29 +6,32 @@ function darkSky_Complete(result){
 console.log(result.currently.summary);
 console.log(city);
 console.log(state);
+generateCard(result);
 }
 
  
 function geocode_Complete(result){
+
             latitude = result.results[0].geometry.location.lat;
             longitude = result.results[0].geometry.location.lng;
             city = result.results[0].address_components[1].long_name;
+      
             state= result.results[0].address_components[3].long_name;
-            morning = result.hourly.data[12].apparentTemperature;
-            noon = result.hourly.data[30].apparentTemperature;
-            night = result.hourly.data[44].apparentTemperature;
             console.log("The lat and long is " + latitude + ", " + longitude);
-
-// Call Darksky/////////////////////////////////////////
 
             var request = {
             url:"https://api.darksky.net/forecast/9706b1862a5387b6c7c27a25a25fab6a/" + latitude + "," + longitude,
             dataType: "jsonp",
-            success: weather_Complete
+            success: darkSky_Complete
         };
 
         $.ajax(request);
         }
+       
+
+// Call Darksky/////////////////////////////////////////
+
+     
 
  //////////////////////////////////////////////////////
 
@@ -56,6 +59,8 @@ function lookupLatLong(city, state, zipBox) {
       $.ajax(request);
       
 }
+
+// Trying something////////////////////////////////////
  
 // Event Handler///////////////////////////////////////
 
@@ -67,7 +72,7 @@ function lookUpWeatherForZipCode_Click() {
 //Document Ready///////////////////////////////////////
 
 $(function(){
-    $("#lookUpZipCode").on("click", lookUpWeatherForZipCode_Click, weather_Complete)
+    $("#lookUpZipCode").on("click", lookUpWeatherForZipCode_Click)
     $("#zipBox").focus();
 });
 
@@ -79,7 +84,7 @@ $(function(){
 function weatherTemplate(data) {
     var weatherData = $("#tempDiv").html();
 
-    weatherData = weatherData.replace("@@City@@", areaName);
+    weatherData = weatherData.replace("@@City@@", city);
   //  weatherData = weatherData.replace("@@date/time@@", data.time);
     weatherData = weatherData.replace("@@lrgDegree@@", data.lrgTemp);
     weatherData = weatherData.replace("@@cond@@", data.crntCond);
@@ -110,9 +115,16 @@ function weather_Complete(result) {
         maxText: ("Max"),
         icon:(result.currently.icon)
     };
+    //trying something else
+
+    
+
+function generateCard(result){
+    var html = weatherTemplate(data);
+    $("#cards").append(html);
+}
 
 
-/*
 var city;
 var state;
 var latitude;
@@ -120,7 +132,7 @@ var longitude;
 var morning;
 var noon;
 var night;
-
+/*
 function weatherTemplate(result1, result2){
     var tempDiv = $("#tempDiv").html();
 
