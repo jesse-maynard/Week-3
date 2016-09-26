@@ -3,10 +3,7 @@
     var state;
     var latitude;
     var longitude;
-    var morning;
-    var noon;
-    var night;
-
+    var lrgTemp;
 
 
 
@@ -14,11 +11,25 @@ function darkSky_Complete(result) {
     console.log(result.currently.summary);
     console.log(city);
     console.log(state);
+   lrgTemp= Math.round((result.currently.temperature)) + "&deg";
+    crntCond= (result.currently.summary);
+    
+        
+        
+        tempMin= Math.round((result.daily.data[0].temperatureMin)) + "&deg";
+        rainChance= (result.daily.data[0].precipProbability);
+        maxTemp= Math.round((result.daily.data[0].temperatureMax)) + "&deg";
+       // minText: ("Min"),
+       // rainChancetext: ("Rain Chance"),
+       // maxText: ("Max"),
+       // icon: (result.currently.icon)
+    
     weather_Complete(result);
+
 }
 
 function geocode_Complete(result) {
-
+ 
     latitude = result.results[0].geometry.location.lat;
     longitude = result.results[0].geometry.location.lng;
     city = result.results[0].address_components[1].long_name;
@@ -97,11 +108,11 @@ function weatherTemplate(data) {
     var weatherData = $("#tempDiv").html();
 
     weatherData = weatherData.replace("@@City@@", city);
-    weatherData = weatherData.replace("@@lrgDegree@@", data.lrgTemp);
-    weatherData = weatherData.replace("@@cond@@", data.crntCond);
-    weatherData = weatherData.replace("@@minTemp@@", data.tempMin);
-    weatherData = weatherData.replace("@@rain@@", data.rainChance + "%");
-    weatherData = weatherData.replace("@@maxTemp@@", data.maxTemp);
+    weatherData = weatherData.replace("@@lrgDegree@@", lrgTemp);
+    weatherData = weatherData.replace("@@cond@@", crntCond);
+    weatherData = weatherData.replace("@@minTemp@@", tempMin);
+    weatherData = weatherData.replace("@@rain@@", rainChance + "%");
+    weatherData = weatherData.replace("@@maxTemp@@", maxTemp);
   
     return weatherData;
 
@@ -114,16 +125,6 @@ function weatherTemplate(data) {
 function weather_Complete(result) {
     console.log("It is currently " + result.timezone + ".");
 generateCard(result);
-    var data = {
-        lrgTemp: Math.round((result.currently.temperature)) + "&deg",
-        crntCond: (result.currently.summary),
-        tempMin: Math.round((result.daily.data[0].temperatureMin)) + "&deg",
-        rainChance: (result.daily.data[0].precipProbability),
-        maxTemp: Math.round((result.daily.data[0].temperatureMax)) + "&deg",
-        minText: ("Min"),
-        rainChancetext: ("Rain Chance"),
-        maxText: ("Max"),
-        icon: (result.currently.icon)
-    };
+   
 
 }
