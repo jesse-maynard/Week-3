@@ -1,5 +1,7 @@
 
 
+
+
 function darkSky_Complete(result){
 console.log(result.currently.summary);
 console.log(city);
@@ -22,7 +24,7 @@ function geocode_Complete(result){
             var request = {
             url:"https://api.darksky.net/forecast/9706b1862a5387b6c7c27a25a25fab6a/" + latitude + "," + longitude,
             dataType: "jsonp",
-            success: generateCard
+            success: weather_Complete
         };
 
         $.ajax(request);
@@ -65,7 +67,7 @@ function lookUpWeatherForZipCode_Click() {
 //Document Ready///////////////////////////////////////
 
 $(function(){
-    $("#lookUpZipCode").on("click", lookUpWeatherForZipCode_Click)
+    $("#lookUpZipCode").on("click", lookUpWeatherForZipCode_Click, weather_Complete)
     $("#zipBox").focus();
 });
 
@@ -74,6 +76,43 @@ $(function(){
 // Generate New Divs/////////////////////////////////
 
 
+function weatherTemplate(data) {
+    var weatherData = $("#tempDiv").html();
+
+    weatherData = weatherData.replace("@@City@@", areaName);
+  //  weatherData = weatherData.replace("@@date/time@@", data.time);
+    weatherData = weatherData.replace("@@lrgDegree@@", data.lrgTemp);
+    weatherData = weatherData.replace("@@cond@@", data.crntCond);
+    weatherData = weatherData.replace("@@minTemp@@", data.tempMin);
+    weatherData = weatherData.replace("@@rain@@", data.rainChance + "%");
+    weatherData = weatherData.replace("@@maxTemp@@", data.maxTemp);
+   // weatherData = weatherData.replace("@@Min@@", data.minText);
+   // weatherData = weatherData.replace("@@rainChance@@", data.rainChancetext);
+   // weatherData = weatherData.replace("@@Max@@", data.maxText);
+   // weatherData = weatherData.replace("@@class@@", data.icon);
+    return weatherData;
+
+}
+
+///////
+function weather_Complete(result) {
+    console.log("It is currently " + result.timezone + ".");
+
+    var data = {
+       // time: new Date(result.currently.time * 1000),
+        lrgTemp: Math.round((result.currently.temperature)) + "&deg",
+        crntCond: (result.currently.summary),
+        tempMin: Math.round((result.daily.data[0].temperatureMin)) + "&deg",
+        rainChance: (result.daily.data[0].precipProbability),
+        maxTemp: Math.round ((result.daily.data[0].temperatureMax)) + "&deg",
+        minText: ("Min"),
+        rainChancetext: ("Rain Chance"),
+        maxText: ("Max"),
+        icon:(result.currently.icon)
+    };
+
+
+/*
 var city;
 var state;
 var latitude;
@@ -82,7 +121,7 @@ var morning;
 var noon;
 var night;
 
-function weatherTemplate(result){
+function weatherTemplate(result1, result2){
     var tempDiv = $("#tempDiv").html();
 
     tempDiv= tempDiv.replace("@@location@@",city);
@@ -99,4 +138,4 @@ function weatherTemplate(result){
 function generateCard(result){
     var html = weatherTemplate(result);
     $("#cards").append(html);
-}
+} */}
